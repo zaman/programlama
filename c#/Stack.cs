@@ -1,7 +1,7 @@
 using System;
 namespace Proje1
 {
-	class Stack
+		class Stack
 	{
 		int max_length;
 		string[] yigit;
@@ -14,9 +14,7 @@ namespace Proje1
 
 		public bool Control()
 		{
-			int i;
-			i = Size();
-			return i == max_length;
+			return Size() == max_length;
 		}
 
 		public bool isEmpty()
@@ -32,27 +30,31 @@ namespace Proje1
 			else
 				yigit[p_size] = item;
 		}
-		public void Pop()
+		public string Pop()
 		{
 			int p_size = Size();
+			string svalue;
 			if (isEmpty()) 
-				Console.WriteLine("Yigit Bos!");
+				return null;
 			else 
-				yigit[p_size - 1] = null;
+				svalue = yigit[p_size - 1];
+				yigit[p_size -1 ] = null;
+				return svalue;
 		}		
 		public string Peek()
 		{
-			int p_size = Size();
-			return yigit[p_size - 1];
+			if (Size() == 0)
+				return null;
+			else
+				return yigit[Size() - 1];
 		}
 		public int Size()
 		{
 			int i = 0;
 			while (yigit[i] != null)
-			{
 				++i;
-			}
 			return i;
 		}
 	}
+
 }
