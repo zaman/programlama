@@ -1,7 +1,7 @@
 /**
- * Prácticas de Metodología de la Programación.
+ * Prï¿½cticas de Metodologï¿½a de la Programaciï¿½n.
  * Clase Jeroquest - Representa al juego de Jeroquest, y permite jugar partidas de este juego. 
- * 				     Para ello dispone de un método para crear una nueva partida y jugarla  
+ * 				     Para ello dispone de un mï¿½todo para crear una nueva partida y jugarla  
  * @author Jorge Puente Peinador y Ramiro Varela Arias
  *
  */
@@ -61,7 +61,7 @@ public class Jeroquest {
 
 	/**
 	 * crea una nueva partida a partir de sus componentes
-	 * @param numHeroes cuantos héroes
+	 * @param numHeroes cuantos hï¿½roes
 	 * @param numMonstruos cuantos monstruos
 	 * @param filas alto del tablero
 	 * @param columnas ancho del tablero
@@ -75,7 +75,7 @@ public class Jeroquest {
 	}
 	
 	/**
-	 * Avanza una ronda más 
+	 * Avanza una ronda mï¿½s 
 	 */
 	private void siguienteRonda()
 	{
@@ -83,8 +83,8 @@ public class Jeroquest {
 	}
 	
 	/**
-	 * Comprobamos si se no se alcanzó el final de la partida
-	 * @return cierto si ya se superó el total de rondas de la partida o no quedan personajes vivos en ambos bandos, falso en otro caso 
+	 * Comprobamos si se no se alcanzï¿½ el final de la partida
+	 * @return cierto si ya se superï¿½ el total de rondas de la partida o no quedan personajes vivos en ambos bandos, falso en otro caso 
 	 */
 	private boolean noFinalPartida()
 	{
@@ -93,7 +93,7 @@ public class Jeroquest {
 
 	/**
 	 * Ejecuta una ronda de la partida: cada personaje "vivo" resuelve su turno
-	 * La ronda finaliza inmediatamente si en algún momento no quedan personjes con vida en ambos bandos  
+	 * La ronda finaliza inmediatamente si en algï¿½n momento no quedan personjes con vida en ambos bandos  
 	 */
 	private void resuelveRonda()
 	{
@@ -102,12 +102,18 @@ public class Jeroquest {
 		for(int x = 0; (x < partidaActual.getPersonajes().length) && quedanContrincantes(); x++){
 			Personaje p = partidaActual.getPersonajes()[x];
 			if (p.estaVivo())
+				if (p.getClass().getName()=="Zombi") {
+					p.degradacion();
+					if (p.estaVivo()) {
+						p.resuelveTurno(partidaActual);
+					}
+				}
 				p.resuelveTurno(partidaActual);
 		}
 	}
 	
 	/**
-	 * Distribuye los personajes por el tablero al azar en posiciones válidas: (vacías y dentro del tablero)  
+	 * Distribuye los personajes por el tablero al azar en posiciones vï¿½lidas: (vacï¿½as y dentro del tablero)  
 	 */
 	private void distribuyePersonajes()
 	{
@@ -116,13 +122,13 @@ public class Jeroquest {
 		
 		for (Personaje p: partidaActual.getPersonajes())
 		{
-			// busca una posición al azar dentro del tablero
+			// busca una posiciï¿½n al azar dentro del tablero
 			int fil = Dado.tira(filas)-1;
 			int col = Dado.tira(columnas)-1;
-			// mientras la posicion no sea válida...
+			// mientras la posicion no sea vï¿½lida...
 			while (!partidaActual.getTablero().muevePersonaje(p, new XYLocation(fil,col)) )
 			{
-				// se busca una nueva posición al azar
+				// se busca una nueva posiciï¿½n al azar
 				fil = Dado.tira(filas)-1;
 				col = Dado.tira(columnas)-1;
 			}
@@ -130,8 +136,8 @@ public class Jeroquest {
 	}
 
 	/**
-	 * Calcula que bando en total tiene más puntos de vida 
-	 * @return el nombre del bando que tiene más puntos de vida
+	 * Calcula que bando en total tiene mï¿½s puntos de vida 
+	 * @return el nombre del bando que tiene mï¿½s puntos de vida
 	 */
 	private String masCuerpo()
 	{ // Devuelve el nombre de la clase con mas puntos de cuerpo en la situacion actual de la partida
@@ -147,7 +153,7 @@ public class Jeroquest {
 		if (cMonstruos > cHeroes) return "Monstruos";
 		else 
 			if (cHeroes > cMonstruos)
-				return "Héroes";
+				return "Hï¿½roes";
 			else 
 				return "Empate";
 	}
@@ -164,24 +170,24 @@ public class Jeroquest {
 		while ((x < partidaActual.getPersonajes().length) 
 				&& (!partidaActual.getPersonajes()[x].estaVivo())) x++;
 		
-		if (x < partidaActual.getPersonajes().length) y = x; // El primer personaje vivo está en y
+		if (x < partidaActual.getPersonajes().length) y = x; // El primer personaje vivo estï¿½ en y
 		
 		while ((x < partidaActual.getPersonajes().length)  // mientras no se llegue al final, y ...
 				  && !(partidaActual.getPersonajes()[x].estaVivo() // ... no encontremos un personaje vivo que sea enemigo de y
 				  && partidaActual.getPersonajes()[x].esEnemigo(partidaActual.getPersonajes()[y]))) 
 			x++; // seguimos buscando
 		
-		if (x < partidaActual.getPersonajes().length) // El primer enemigo vivo del personaje de y está en x
+		if (x < partidaActual.getPersonajes().length) // El primer enemigo vivo del personaje de y estï¿½ en x
 		return true; // Hay personajes vivos en los dos bandos
-		else return false; // Todos los de algún bando están muertos
+		else return false; // Todos los de algï¿½n bando estï¿½n muertos
 	}
 
 	/**
-	 * Devuelve un array con las casillas válidas a las que se puede mover directamente un personaje desde su posición actual:(N, S, E y O)
-	 * (se define como estático ya que responde a las normas del juego en todo momento)
+	 * Devuelve un array con las casillas vï¿½lidas a las que se puede mover directamente un personaje desde su posiciï¿½n actual:(N, S, E y O)
+	 * (se define como estï¿½tico ya que responde a las normas del juego en todo momento)
 	 * @param partidaActual partida que contiene el tablero y los personajes
 	 * @param pj personaje a analizar
-	 * @return el vector de posiciones (posiblemente vacío) a las que se puede mover
+	 * @return el vector de posiciones (posiblemente vacï¿½o) a las que se puede mover
 	 */
 	public static VectorDinamicoXYLocation posicionesValidas(Partida partidaActual, Personaje pj)
 	{
@@ -201,30 +207,30 @@ public class Jeroquest {
 	}
 	
 	/**
-	 * Devuelve un array con los objetivos válidos para el personaje actual
-	 * (se define como estático ya que responde a las normas del juego en todo momento)
+	 * Devuelve un array con los objetivos vï¿½lidos para el personaje actual
+	 * (se define como estï¿½tico ya que responde a las normas del juego en todo momento)
 	 * @param partidaActual la partida en juego
 	 * @param pj el personaje que actua
-	 * @return los objetivos validos para el personaje en su posición actual
+	 * @return los objetivos validos para el personaje en su posiciï¿½n actual
 	 */
 	public static VectorDinamicoPersonajes ObjetivosValidos(Partida partidaActual, Personaje pj)
 	{
 		// busca objetivos
 		VectorDinamicoPersonajes objetivosValidos = new VectorDinamicoPersonajes();
 		
-		// Hay que recorrer los personajes de la partida y añadir los objetivos validos, es decir:
-		// 1.- Que estén vivos
+		// Hay que recorrer los personajes de la partida y aï¿½adir los objetivos validos, es decir:
+		// 1.- Que estï¿½n vivos
 		// 2.- Que sean enemigos
-		// 3.- Que estén a tiro (ver manual del Jeroquest2.0)
+		// 3.- Que estï¿½n a tiro (ver manual del Jeroquest2.0)
 
 		return objetivosValidos;
 	}
 	
 	/** 
 	 * Comprueba si las posiciones de dos personajes son adyacentes
-	 * (se define como estático ya que responde a las normas del juego en todo momento) 
-	 * @param pos1 posición del primer personaje
-	 * @param pos2 posición del segundo personaje
+	 * (se define como estï¿½tico ya que responde a las normas del juego en todo momento) 
+	 * @param pos1 posiciï¿½n del primer personaje
+	 * @param pos2 posiciï¿½n del segundo personaje
 	 * @return cierto si las casilla son adyacentes, falso en otro caso 
 	 */
 	public static boolean estanATiro(XYLocation pos1, XYLocation pos2)
@@ -249,11 +255,11 @@ public class Jeroquest {
 	}
 	
 	/**
-	 * Comprueba si el personaje está bloqueado, es decir, si no puede moverse a ninguna posición: N, S, E, O
-	 * (se define como estático ya que responde a las normas del juego en todo momento) 
+	 * Comprueba si el personaje estï¿½ bloqueado, es decir, si no puede moverse a ninguna posiciï¿½n: N, S, E, O
+	 * (se define como estï¿½tico ya que responde a las normas del juego en todo momento) 
 	 * @param partidaActual la partida en juego
 	 * @param p personaje a comprobar
-	 * @return cierto si no puede moverse en ninguna dirección
+	 * @return cierto si no puede moverse en ninguna direcciï¿½n
 	 */
 	public static boolean bloqueado(Partida partidaActual, Personaje p){
 		Tablero tab = partidaActual.getTablero();

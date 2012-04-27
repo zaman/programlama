@@ -1,6 +1,6 @@
 /**
- * Prácticas de Metodología de la Programación.
- * Jeroquest - Un ejemplo de Programación orientada a objetos.
+ * Prï¿½cticas de Metodologï¿½a de la Programaciï¿½n.
+ * Jeroquest - Un ejemplo de Programaciï¿½n orientada a objetos.
  * Clase Personaje - clase abstracta que representa a cualquier personaje del juego
  * @author Jorge Puente Peinador y Ramiro Varela Arias
  *
@@ -28,7 +28,7 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 
 	/**
 	 * Crea un personaje a partir de su nombre y sus atributos iniciales
-	 * inicialmente su posición es nula (fuera del tablero)
+	 * inicialmente su posiciï¿½n es nula (fuera del tablero)
 	 * @param nombre nombre del personaje
 	 * @param mueve casillas que mueve por turno
 	 * @param ataque dados que tira por ataque sin arma
@@ -56,7 +56,7 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 	}
 
 	/**
-	 * Obtén las unidades de movimiento por turno
+	 * Obtï¿½n las unidades de movimiento por turno
 	 * (observador)
 	 * @return unidades de movimiento del personaje
 	 */
@@ -65,7 +65,7 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 	}
 
 	/**
-	 * Obtén los dados de ataque
+	 * Obtï¿½n los dados de ataque
 	 * @return dados de ataque del personaje
 	 */
 	public int getAtaque() {
@@ -73,7 +73,7 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 	}
 
 	/**
-	 * Obtén los dados de defensa
+	 * Obtï¿½n los dados de defensa
 	 * @return dados de defensa del personaje
 	 */
 	public int getDefensa() {
@@ -81,7 +81,7 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 	}
 
 	/** 
-	 * Obtén los puntos de vida 
+	 * Obtï¿½n los puntos de vida 
 	 * @return puntos de vida del personaje
 	 */
 	public int getCuerpo() {
@@ -121,28 +121,31 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 	}
 
 	/**
-	 * Obtén el nombre 
+	 * Obtï¿½n el nombre 
 	 * @return el nombre del personaje 
 	 */
 	public String getNombre() {
 		return nombre;
 	}
-
+	
+	void degradacion() {
+		this.cuerpo-=1;
+	}
 	
 
 
 	/**
-	 * Comprueba si al personaje le queda algún punto de vida
-	 * @return cierto si está vivo, falso en otro caso
+	 * Comprueba si al personaje le queda algï¿½n punto de vida
+	 * @return cierto si estï¿½ vivo, falso en otro caso
 	 */
 	public boolean estaVivo() {
 		return cuerpo > 0;
 	}
 
 	/** 
-	 * Calcula un ataque del personaje calculando el número de impactos,
+	 * Calcula un ataque del personaje calculando el nï¿½mero de impactos,
 	 * para ello tira tantos dados como su propiedad ataque indique
-	 * @return el número de impactos del personaje
+	 * @return el nï¿½mero de impactos del personaje
 	 */
 	public int atacar() {
 		int impactos = 0;
@@ -166,15 +169,15 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 
 	/** 
 	 * El personaje se defiende de un ataque
-	 * (método abstracto)
+	 * (mï¿½todo abstracto)
 	 * @param impactos el total de impactos que tiene que intentar detener o sufrir
 	 */
 	public abstract void defender(int impactos);
 	
 	/**
 	 * Comprueba que el personaje pasado como argumento sea enemigo del actual
-	 * Enemigo será todo aquel que no sea de la misma clase
-	 * @param p personaje a comprobar afiliación
+	 * Enemigo serï¿½ todo aquel que no sea de la misma clase
+	 * @param p personaje a comprobar afiliaciï¿½n
 	 * @return cierto si es enemigo del personaje actual
 	 */
 	public boolean esEnemigo(Personaje p)
@@ -192,6 +195,16 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 		VectorDinamicoPersonajes objetivos = Jeroquest.ObjetivosValidos(partidaActual, this);
 		
 		if(objetivos.length() > 0){
+			if (this.getClass().getName()=="Zombi") {
+				for(int i=0; i<objetivos.length(); i++) {
+					Personaje objetivo = objetivos.get(i);
+					if(objetivo.getClass().getName()=="Barbaro") {
+						System.out.println(this.getNombre() + this.getPosicion()
+							+ " ataca a " + objetivo.getNombre() + objetivo.getPosicion());
+						this.combatir(objetivo, partidaActual);
+					}
+				}
+			
 			Personaje objetivo = objetivos.get(Dado.tira(objetivos.length()) - 1);
 			System.out.println(this.getNombre() + this.getPosicion()
 					+ " ataca a " + objetivo.getNombre() + objetivo.getPosicion());
@@ -203,7 +216,7 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 		VectorDinamicoXYLocation posicionesValidas = Jeroquest.posicionesValidas(partidaActual, this);
 		int mov = this.getMueve();
 		while((posicionesValidas.length()> 0) && (mov > 0)){
-			// si puede se mueve en una dirección escogida al azar
+			// si puede se mueve en una direcciï¿½n escogida al azar
 			XYLocation nuevaPosicion = posicionesValidas.get(Dado.tira(posicionesValidas.length()) - 1);
 			partidaActual.getTablero().muevePersonaje(this, nuevaPosicion);
 			mov--;
@@ -216,20 +229,20 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 		
 		
 		// Posibles mejoras (entre otras):
-		// 				- Moverse hacia el enemigo más cercano/ con menos vida /...
+		// 				- Moverse hacia el enemigo mï¿½s cercano/ con menos vida /...
 		//					A.- Primero en Xs y luego en Ys
-		//					B.- Primero en la coordenada que tenga mayor diferencia con la posición del objetivo
+		//					B.- Primero en la coordenada que tenga mayor diferencia con la posiciï¿½n del objetivo
 		//				- IA: comprobar si hay una ruta libre hasta el objetivo 
-		//				- ¿Qué hacer si tenemos el camino bloqueado por otros personajes aliados?
+		//				- ï¿½Quï¿½ hacer si tenemos el camino bloqueado por otros personajes aliados?
 		// 				- Detenerse si tenemos un enemigo a tiro
 		// y si esta libre y dentro del tablero se mueve a esa posicion
 
 	}
 
 	/** 
-	 * Genera la versión String imprimible del objeto
-	 *  (Método reescrito)
-	 * @return La versión como String imprimible del personaje 
+	 * Genera la versiï¿½n String imprimible del objeto
+	 *  (Mï¿½todo reescrito)
+	 * @return La versiï¿½n como String imprimible del personaje 
 	 */
 	@Override
 	public String toString() {
@@ -241,7 +254,7 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 
 	
 	/************************************************
-	 * Implementación de la interfaz PersonajeGrafico
+	 * Implementaciï¿½n de la interfaz PersonajeGrafico
 	 * **********************************************/
 
 		// Icono de un personaje abstracto
@@ -257,22 +270,22 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 		}
 
 		/************************************************
-		 * Implementación de la interfaz Ficha
+		 * Implementaciï¿½n de la interfaz Ficha
 		 * **********************************************/
 		// por composicion
 		protected XYLocation posicion;  // posicion ocupada en el tablero
 
 		/**
-		 * Obtén la posición en el tablero 
-		 * @return laposición en el tablero del personaje
+		 * Obtï¿½n la posiciï¿½n en el tablero 
+		 * @return laposiciï¿½n en el tablero del personaje
 		 */
 		public XYLocation getPosicion() {
 			return posicion;
 		}
 
 		/**
-		 * Fija la posición del personaje en el tablero
-		 * @param pos nueva posición del personaje en el tablero
+		 * Fija la posiciï¿½n del personaje en el tablero
+		 * @param pos nueva posiciï¿½n del personaje en el tablero
 		 */
 		public void setPosicion(XYLocation pos) {
 			posicion = pos;
@@ -284,7 +297,7 @@ public abstract class Personaje implements Ficha, PersonajeGrafico{
 		 */
 		public char toChar()
 		{
-			// si la sublcase no define otra cosa, los personajes aparecerán
+			// si la sublcase no define otra cosa, los personajes aparecerï¿½n
 			// como '?'s
 			return '?';
 		}
